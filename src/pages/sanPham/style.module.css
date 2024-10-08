@@ -1,0 +1,17 @@
+.tools_bar {
+  height: 15%;
+}
+
+.table_wrapper {
+  height: 85%;
+  max-height: 85%;
+  overflow: auto;
+}
+
+.side_bar {
+  width: 20%;
+}
+
+.main_content {
+  width: 80%;
+}
