@@ -5,35 +5,35 @@ import TableA from '../../components/tableA'
 import styles from './style.module.css'
 
 const data = [
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
+  { "ma": "123", "ten": "123", "diaChi": "fd", "email": "d", "sdt": "12323" },
   // { maSP: "atest", ten: "aaa", thuongHieu: "Dd", hdh: "aaa", pbHDH: "aaa", xuatXu: "test" },
   // { maSP: "atest", ten: "aaa", thuongHieu: "Dd", hdh: "aaa", pbHDH: "aaa", xuatXu: "test" },
   // { maSP: "atest", ten: "aaa", thuongHieu: "Dd", hdh: "aaa", pbHDH: "aaa", xuatXu: "test" },
   // { maSP: "atest", ten: "aaa", thuongHieu: "Dd", hdh: "aaa", pbHDH: "aaa", xuatXu: "test" },
 ]
-const headers = ["Mã KH", "Tên khách hàng", "Ngày sinh", "Địa chỉ", "Email", "Số điện thoại", "Ngày tham gia"]
-const mapping = ["ma", "ten", "ngaySinh", "diaChi", "email", "sdt", "ngayThamGia"]
+const headers = ["Mã NCC", "Tên nhà cung cấp", "Địa chỉ", "Email", "Số điện thoại"]
+const mapping = ["ma", "ten", "diaChi", "email", "sdt"]
 
 
 function KhachHangForm() {
@@ -121,7 +121,7 @@ function EditModal() {
   )
 }
 
-export default function KhachHang() {
+export default function NhaCungCap() {
   return (
     <>
       <main className={[styles.container, "container-fluid vw-100 vh-100 bg-info-subtle"].join(" ")}>

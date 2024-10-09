@@ -29,7 +29,7 @@ export default function ToolbarA({ AddModal, EditModal, DeleteModal }) {
           <FontAwesomeIcon icon={faPencil} color="#e69138" className={[styles.tool_icon].join(" ")} />
           <p className={["m-0 fw-bold"].join(" ")}> Sửa </p>
         </div>
-        <div className={["btn d-flex my-3 flex-column text-center justify-content-between align-item-center"].join(" ")} ref={deleteBtn} data-bs-toggle="modal" data-bs-target={"#deleteModal" + modalID}>
+        <div className={["btn d-flex my-3 flex-column text-center justify-content-between align-item-center"].join(" ")} ref={deleteBtn}>
           <FontAwesomeIcon icon={faTrashCan} color="#ffd43b" className={[styles.tool_icon].join(" ")} />
           <p className={["m-0 fw-bold"].join(" ")}> Xóa </p>
         </div>
@@ -53,25 +53,15 @@ export default function ToolbarA({ AddModal, EditModal, DeleteModal }) {
           </div>
         </div>
       </form>
+
       {/* Add Modal */}
       <div className="modal fade" id={"addModal" + modalID} tabIndex="-1" >
-        <div className="modal-dialog">
-          {AddModal}
-        </div>
+        {AddModal}
       </div>
 
       {/* Edit Modal */}
       <div className="modal fade" id={"editModal" + modalID} tabIndex="-1" >
-        <div className="modal-dialog">
-          {EditModal}
-        </div>
-      </div>
-
-      {/* Delete modal */}
-      <div className="modal fade" id={"deleteModal" + modalID} tabIndex="-1" >
-        <div className="modal-dialog">
-          {DeleteModal}
-        </div>
+        {EditModal}
       </div>
     </div>
   )
