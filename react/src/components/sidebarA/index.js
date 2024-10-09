@@ -3,8 +3,19 @@ import { faHouse, faWarehouse, faAngleRight, faRightFromBracket, faHandshakeSimp
 import styles from './style.module.css'
 
 const navLinks = [
-  { title: "Trang chủ", icon: faHouse, links: [] },
-  { title: "Sản phẩm", icon: "", links: [{ title: "", href: "/" }] },
+  { title: "Trang chủ", id: "trangChu", link: "/", icon: faHouse, links: [] },
+  {
+    title: "Quản lý sản phẩm", id: "sanPham", icon: faWarehouse, links: [
+      { title: "Sản phẩm", href: "/san-pham" },
+      { title: "Thuộc tính", href: "/thuoc-tinh" },
+    ]
+  },
+  {
+    title: "Quản lý đối tác", id: "doiTac", icon: faHandshakeSimple, links: [
+      { title: "Nhà cung cấp", href: "/nha-cung-cap" },
+      { title: "Khách hàng", href: "/khach-hang" },
+    ]
+  },
 ]
 
 export default function SideNavbar() {
@@ -24,55 +35,32 @@ export default function SideNavbar() {
       {/* Trang chủ */}
       <div className={[styles.nav_container].join(" ")}>
         <div className="row accordion accordion-flush p-0 m-0" >
-          {/* Trang chủ */}
-          <div className="accordion-item bg-light">
-            <div className="accordion-header align-items-center px-4 py-2">
-              <div className={[styles.nav_header,].join(" ")}>
-                <FontAwesomeIcon className={styles.nav_icon} icon={faHouse} />
-                <a href='/' className={["fs-5 text-decoration-none fw-semibold"].join(" ")}>
-                  Trang chủ
-                </a>
+          {navLinks.map(item => (
+            <div className="accordion-item bg-light" key={item.title}>
+              <div className="accordion-header">
+                <div className={[styles.nav_header, "collapsed px-4 py-2"].join(" ")} type="button" data-bs-toggle="collapse" data-bs-target={`#${item.id}`} aria-expanded="false">
+                  <FontAwesomeIcon className={styles.nav_icon} icon={item.icon} />
+                  {item.links.length > 0 ?
+                    <>
+                      <p className="fs-5 fw-semibold my-0">{item.title}</p>
+                      <FontAwesomeIcon className={styles.arrow_icon} icon={faAngleRight} />
+                    </>
+                    : <a className="fs-5 fw-semibold my-0 text-decoration-none" href={item.link}>{item.title}</a>
+                  }
+                </div>
               </div>
-            </div>
-          </div>
 
-          {/* Sản phẩm */}
-          <div className="accordion-item bg-light">
-            <div className="accordion-header">
-              <div className={[styles.nav_header, "collapsed px-4 py-2"].join(" ")} type="button" data-bs-toggle="collapse" data-bs-target="#san-pham-nav" aria-expanded="false">
-                <FontAwesomeIcon className={styles.nav_icon} icon={faWarehouse} />
-                <p className="fs-5 fw-semibold my-0">Sản phẩm</p>
-                <FontAwesomeIcon className={styles.arrow_icon} icon={faAngleRight} />
-              </div>
+              {item.links.length > 0 && <div id={item.id} className="accordion-collapse collapse" >
+                <div className="accordion-body py-0 px-4">
+                  <ul>
+                    {item.links.map(link => (
+                      <li className={["py-1"].join(" ")}><a className='text-decoration-none' href={link.href} key={link.href}>{link.title}</a></li>
+                    ))}
+                  </ul>
+                </div>
+              </div>}
             </div>
-            <div id="san-pham-nav" className="accordion-collapse collapse" >
-              <div className="accordion-body py-0 px-4">
-                <ul>
-                  <li className={["py-1"].join(" ")}><a className='text-decoration-none' href='/san-pham'>Sản phẩm</a></li>
-                  <li className={["py-1"].join(" ")}><a className='text-decoration-none' href='/thuoc-tinh'>Thuộc tính</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Đối tác */}
-          <div className="accordion-item bg-light">
-            <div className="accordion-header">
-              <div className={[styles.nav_header, "collapsed px-4 py-2"].join(" ")} type="button" data-bs-toggle="collapse" data-bs-target="#doi-tac-nav" aria-expanded="false">
-                <FontAwesomeIcon className={styles.nav_icon} icon={faHandshakeSimple} />
-                <p className="fs-5 fw-semibold my-0"> Quản lý đối tác</p>
-                <FontAwesomeIcon className={styles.arrow_icon} icon={faAngleRight} />
-              </div>
-            </div>
-            <div id="doi-tac-nav" className="accordion-collapse collapse" >
-              <div className="accordion-body py-0 px-4">
-                <ul>
-                  <li className={["py-1"].join(" ")}><a className='text-decoration-none' href='/nha-cung-cap'>Nhà cung cấp</a></li>
-                  <li className={["py-1"].join(" ")}><a className='text-decoration-none' href='/khach-hang'>Khách hàng</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* Đăng xuất */}
