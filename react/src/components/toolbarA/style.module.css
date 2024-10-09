@@ -1,0 +1,10 @@
+.table_wrapper {
+  height: 80%;
+  max-height: 80%;
+  overflow: auto;
+}
+
+.tool_icon {
+  height: 50px;
+  width: auto;
+}
