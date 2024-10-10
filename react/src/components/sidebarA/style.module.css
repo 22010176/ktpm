@@ -8,16 +8,13 @@
 }
 
 .nav_container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   height: 90%
 }
 
 .nav_header {
   display: grid;
-  grid-template-columns: auto 1fr auto;
   gap: 20px;
+  grid-template-columns: 30px 1fr auto;
   align-items: center;
 }
 

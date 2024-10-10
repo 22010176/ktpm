@@ -3,8 +3,13 @@ import { faHouse, faWarehouse, faAngleRight, faRightFromBracket, faHandshakeSimp
 import styles from './style.module.css'
 
 const navLinks = [
-  { title: "Trang chủ", icon: faHouse, links: [] },
-  { title: "Sản phẩm", icon: "", links: [{ title: "", href: "/" }] },
+  { title: "Trang chủ", link: "/", icon: faHouse, links: [] },
+  {
+    title: "Sản phẩm", icon: faWarehouse, links: [
+      { title: "Sản phẩm", href: "/san-pham" },
+      { title: "Thuộc tính", href: "/thuoc-tinh" }
+    ]
+  },
 ]
 
 export default function SideNavbar() {
@@ -22,7 +27,7 @@ export default function SideNavbar() {
       </div>
 
       {/* Trang chủ */}
-      <div className={[styles.nav_container].join(" ")}>
+      <div className={[styles.nav_container, "d-flex flex-column justify-content-between"].join(" ")}>
         <div className="row accordion accordion-flush p-0 m-0" >
           {/* Trang chủ */}
           <div className="accordion-item bg-light">

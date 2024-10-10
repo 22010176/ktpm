@@ -109,33 +109,43 @@ export default function KhachHang() {
   const [rowClick, setRowClick] = useState();
 
   useEffect(function () {
-    khachHangAPI.GET().then(a => setTableData(a.body))
+    getKhachHangData()
   }, [])
+
+
+  async function getKhachHangData() {
+    setTableData([])
+    await khachHangAPI.GET().then(a => setTableData(a.body))
+  }
 
   function onRowClick(data) {
     setRowClick(data);
-    console.log("test", data)
   }
 
   async function onAdd(data) {
     const result = await khachHangAPI.PUT(data)
-    console.log({ result, data })
-    return result.message === "Success"
-    // return true
+    if (result.message !== "Success") return false;
+
+    setRowClick(defaultKhachHang);
+    getKhachHangData();
+    return true
   }
 
   async function onEdit(data) {
     const result = await khachHangAPI.POST(data)
-    console.log({ result, data })
-    return result.message === "Success"
+    if (result.message !== "Success") return false;
+
+    setRowClick(defaultKhachHang);
+    getKhachHangData()
+    return true
   }
 
   async function onDelete(e) {
     if (!rowClick) errorBtn.current.click();
     const result = await khachHangAPI.DELETE(rowClick)
-    console.log({ result, rowClick })
-    return result.message === "Success"
 
+    await getKhachHangData()
+    return result.message === "Success"
   }
   return (
     <main className={[styles.container, "container-fluid vw-100 vh-100 bg-info-subtle"].join(" ")}>
