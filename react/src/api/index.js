@@ -10,5 +10,15 @@ export const khachHangAPI = {
     return fetch(url + "/khach-hang", {
       method: "PUT", headers, body: JSON.stringify(data)
     }).then(a => a.json())
+  },
+  async POST(data) {
+    return fetch(url + "/khach-hang", {
+      method: "POST", headers, body: JSON.stringify(data)
+    }).then(a => a.json())
+  },
+  async DELETE(data) {
+    return fetch(url + "/khach-hang", {
+      method: "DELETE", headers, body: JSON.stringify(data)
+    }).then(a => a.json())
   }
 }

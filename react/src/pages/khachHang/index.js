@@ -6,20 +6,13 @@ import styles from './style.module.css'
 import { useEffect, useRef, useState } from 'react'
 import { khachHangAPI } from '../../api'
 
-const data = [
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-  { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
-]
-const headers = ["Mã KH", "Tên khách hàng", "Ngày sinh", "Địa chỉ", "Email", "Số điện thoại", "Ngày tham gia"]
-const mapping = ["ma", "ten", "ngaySinh", "diaChi", "email", "sdt", "ngayThamGia"]
 
 
-function KhachHangModal({ title, submitBtnTitle, onSubmit }) {
+const defaultKhachHang = { "ma": undefined, "ten": "", "ngaySinh": "", "diaChi": "", "email": "", "sdt": "", "ngayThamGia": "" }
+function KhachHangModal({ title, submitBtnTitle, onSubmit, initialValue = {} }) {
   const parents = useRef(), hideBtn = useRef();
-  const [data, setData] = useState({
-    "ma": undefined, "ten": "", "ngaySinh": "", "diaChi": "", "email": "", "sdt": "", "ngayThamGia": ""
-  })
+  const [data, setData] = useState(Object.assign(defaultKhachHang, initialValue))
+
 
   function inputOnChange(e) {
     const elem = e.target, key = elem.name;
@@ -86,26 +79,32 @@ function KhachHangModal({ title, submitBtnTitle, onSubmit }) {
     </div >
   )
 }
+
+
 function EditNoSelectErrorModal() {
   return (
     <div className="modal-dialog">
       <div className="modal-content">
         <div className="modal-header">
-          <h5 className="modal-title">Modal title</h5>
+          <h3 className="modal-title text-danger fw-bold">LỖI</h3>
           <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div className="modal-body">
-          <p>Modal body text goes here.</p>
+          <p>Hãy chọn 1 sản phẩm.</p>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" className="btn btn-primary">Save changes</button>
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
         </div>
       </div>
     </div>
   )
 }
+
+const headers = ["Mã KH", "Tên khách hàng", "Ngày sinh", "Địa chỉ", "Email", "Số điện thoại", "Ngày tham gia"]
+const mapping = ["ma", "ten", "ngaySinh", "diaChi", "email", "sdt", "ngayThamGia"]
+
 export default function KhachHang() {
+  const errorBtn = useRef();
   const [tableData, setTableData] = useState([]);
   const [rowClick, setRowClick] = useState();
 
@@ -113,21 +112,34 @@ export default function KhachHang() {
     khachHangAPI.GET().then(a => setTableData(a.body))
   }, [])
 
+  function onRowClick(data) {
+    setRowClick(data);
+    console.log("test", data)
+  }
+
   async function onAdd(data) {
     const result = await khachHangAPI.PUT(data)
     console.log({ result, data })
     return result.message === "Success"
     // return true
   }
-  function onEdit(data) {
-    console.log(data)
-    return true
+
+  async function onEdit(data) {
+    const result = await khachHangAPI.POST(data)
+    console.log({ result, data })
+    return result.message === "Success"
   }
-  function onDelete(data) {
-    console.log({ data, rowClick })
+
+  async function onDelete(e) {
+    if (!rowClick) errorBtn.current.click();
+    const result = await khachHangAPI.DELETE(rowClick)
+    console.log({ result, rowClick })
+    return result.message === "Success"
+
   }
   return (
     <main className={[styles.container, "container-fluid vw-100 vh-100 bg-info-subtle"].join(" ")}>
+      <div ref={errorBtn} className='d-none' data-bs-toggle="modal" data-bs-target="#errorModal"></div>
       <div className='row h-100'>
         <div className={[styles.side_bar, 'col-auto h-100'].join(" ")}>
           <div className='row h-100'>
@@ -142,15 +154,18 @@ export default function KhachHang() {
             <ToolbarA
               onDelete={onDelete}
               AddModal={<KhachHangModal title={"THÊM KHÁCH HÀNG"} submitBtnTitle={"Thêm khách hàng"} onSubmit={onAdd} />}
-              EditModal={
-                <KhachHangModal title={"SỬA KHÁCH HÀNG"} submitBtnTitle={"Lưu thông tin"} onSubmit={onEdit} />} />
+              EditModal={<KhachHangModal title={"SỬA KHÁCH HÀNG"} submitBtnTitle={"Lưu thông tin"} onSubmit={onEdit} initialValue={{ ...rowClick }} />} />
           </div>
 
           {/* Bảng dữ liệu */}
           <div className={[styles.table_wrapper, "bg-light rounded-2 row"].join(" ")}>
-            <TableA headers={headers} data={tableData} mapping={mapping} onClick={setRowClick} />
+            <TableA headers={headers} data={tableData} mapping={mapping} onClick={onRowClick} />
           </div>
         </div>
+      </div>
+
+      <div className='modal fade' id='errorModal' tabIndex={-1}>
+        <EditNoSelectErrorModal />
       </div>
     </main>
   )
