@@ -3,7 +3,8 @@ import ToolbarA from '../../components/toolbarA'
 import TableA from '../../components/tableA'
 
 import styles from './style.module.css'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { khachHangAPI } from '../../api'
 
 const data = [
   { "ma": "123", "ten": "123", "ngaySinh": "df", "diaChi": "fd", "email": "d", "sdt": "12323", "ngayThamGia": "1/2/3" },
@@ -33,6 +34,7 @@ function KhachHangModal({ title, submitBtnTitle, onSubmit }) {
       setData({ "ma": undefined, "ten": "", "ngaySinh": "", "diaChi": "", "email": "", "sdt": "", "ngayThamGia": "", })
       hideBtn.current.click();
     } catch (error) {
+      console.log(error)
       hideBtn.current.click();
     }
   }
@@ -84,12 +86,38 @@ function KhachHangModal({ title, submitBtnTitle, onSubmit }) {
     </div >
   )
 }
-
+function EditNoSelectErrorModal() {
+  return (
+    <div className="modal-dialog">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title">Modal title</h5>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div className="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" className="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  )
+}
 export default function KhachHang() {
-  const [rowClick, setRowClick] = useState({});
-  function onAdd(data) {
-    console.log(data)
-    return true
+  const [tableData, setTableData] = useState([]);
+  const [rowClick, setRowClick] = useState();
+
+  useEffect(function () {
+    khachHangAPI.GET().then(a => setTableData(a.body))
+  }, [])
+
+  async function onAdd(data) {
+    const result = await khachHangAPI.PUT(data)
+    console.log({ result, data })
+    return result.message === "Success"
+    // return true
   }
   function onEdit(data) {
     console.log(data)
@@ -114,12 +142,13 @@ export default function KhachHang() {
             <ToolbarA
               onDelete={onDelete}
               AddModal={<KhachHangModal title={"THÊM KHÁCH HÀNG"} submitBtnTitle={"Thêm khách hàng"} onSubmit={onAdd} />}
-              EditModal={<KhachHangModal title={"SỬA KHÁCH HÀNG"} submitBtnTitle={"Lưu thông tin"} onSubmit={onEdit} />} />
+              EditModal={
+                <KhachHangModal title={"SỬA KHÁCH HÀNG"} submitBtnTitle={"Lưu thông tin"} onSubmit={onEdit} />} />
           </div>
 
           {/* Bảng dữ liệu */}
           <div className={[styles.table_wrapper, "bg-light rounded-2 row"].join(" ")}>
-            <TableA headers={headers} data={data} mapping={mapping} onClick={setRowClick} />
+            <TableA headers={headers} data={tableData} mapping={mapping} onClick={setRowClick} />
           </div>
         </div>
       </div>

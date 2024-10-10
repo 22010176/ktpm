@@ -21,15 +21,15 @@ export default function ToolbarA({ AddModal, EditModal, onDelete }) {
     <div className={["d-flex justify-content-between bg-light border-bottom border-start border-2 border-info-subtle rounded"].join(" ")}>
       {/* Công cụ */}
       <div className={[styles.tools, "d-flex gap-2"].join(" ")}>
-        <div className={["btn d-flex my-3 flex-column text-center justify-content-between align-item-center"].join(" ")} ref={addBtn} data-bs-toggle="modal" data-bs-target={"#addModal" + modalID} >
+        <div className={["btn d-grid gap-3 text-center align-self-center"].join(" ")} ref={addBtn} data-bs-toggle="modal" data-bs-target={"#addModal" + modalID} >
           <FontAwesomeIcon icon={faCirclePlus} color="#63e6be" className={[styles.tool_icon].join(" ")} />
           <p className={["m-0 fw-bold"].join(" ")}> Thêm </p>
         </div>
-        <div className={["btn d-flex my-3 flex-column text-center justify-content-between align-item-center"].join(" ")} ref={editBtn} data-bs-toggle="modal" data-bs-target={"#editModal" + modalID}>
+        <div className={["btn d-grid gap-3 text-center align-self-center"].join(" ")} ref={editBtn} data-bs-toggle="modal" data-bs-target={"#editModal" + modalID}>
           <FontAwesomeIcon icon={faPencil} color="#e69138" className={[styles.tool_icon].join(" ")} />
           <p className={["m-0 fw-bold"].join(" ")}> Sửa </p>
         </div>
-        <div className={["btn d-flex my-3 flex-column text-center justify-content-between align-item-center"].join(" ")} ref={deleteBtn} onClick={onDelete}>
+        <div className={["btn d-grid gap-3 text-center align-self-center"].join(" ")} ref={deleteBtn} onClick={onDelete}>
           <FontAwesomeIcon icon={faTrashCan} color="#ffd43b" className={[styles.tool_icon].join(" ")} />
           <p className={["m-0 fw-bold"].join(" ")}> Xóa </p>
         </div>
