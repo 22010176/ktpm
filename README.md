@@ -233,27 +233,26 @@ Truy cập [CloudFront](https://us-east-1.console.aws.amazon.com/cloudfront/v4/h
   - **Viewer protocol policy**: `Redirect HTTP to HTTPS`
   - **Allowed HTTP methods**: `GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE`
 
-![alt text](image-2.png)
-![alt text](image-3.png)
+![alt text](img/image-39.png)
+![alt text](img/image-40.png)
 
 - **Web Application Firewall (WAF)**: phụ thuộc vào tùy chọn bản thân.
 
-![alt text](image-4.png)
+![alt text](img/image-41.png)
 
 - **Settings**:
   - **Price class**: `Use all edge locations (best performance)`
   - **Supported HTTP versions**: `HTTP/2` và `HTTP/3`
 
-![alt text](image-5.png)
-
+![alt text](img/image-42.png)
 
 Sau đó, ta chọn **Copy policy** ở **The S3 bucket policy needs to be updated** và cập nhật nó ở **S3**.
-![alt text](image.png)
+![alt text](img/image-43.png)
 
 Chọn **Error pages**, chọn **Create custom error response**
-![alt text](image-1.png)
+![alt text](img/image-44.png)
 
 Cài đặt:
-![alt text](image-7.png)
+![alt text](img/image-45.png)
 
 Thế là hoàn thành tất cả các bước thiết lập **cloudfront**

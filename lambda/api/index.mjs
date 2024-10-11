@@ -53,7 +53,7 @@ async function khachHangRoute(event) {
     case "GET":
       result = await client.send(new ScanCommand({
         TableName: khachHangDB,
-        ProjectionExpression: "ma, ten, ngaySinh, diaChi, email, sdt",
+        ProjectionExpression: "ma, ten, ngaySinh, diaChi, email, sdt, ngayThamGia",
         FilterExpression: "trangThai = :tt",
         ExpressionAttributeValues: { ":tt": { "N": "1" } },
       }));
@@ -106,7 +106,7 @@ async function khachHangRoute(event) {
     case "DELETE":
       result = await client.send(new UpdateItemCommand({
         "ExpressionAttributeValues": {
-          ":tt": { "S": "0" },
+          ":tt": { "N": "0" },
         },
         "Key": {
           "ma": { "S": body.ma },
@@ -137,44 +137,44 @@ export const handler = async event => {
   }
 };
 
-// handler({
-//   "body-json": {
-//     "ma": "7b74e518-1099-4e3a-a72f-c21e2dd38339",
-//     "ten": "123333",
-//     "ngaySinh": "2023-01-01",
-//     "diaChi": "fdddd",
-//     "email": "33ddd3d",
-//     "sdt": "1233323",
-//     "ngayThamGia": "2025-1-01"
-//   },
-//   "params": {
-//     "path": {
-//     }
-//     , "querystring": {
-//     }
-//     , "header": {
-//     }
-//   },
-//   "stage-variables": {
-//   },
-//   "context": {
-//     "account-id": "688567306327",
-//     "api-id": "7dc790ywi7",
-//     "api-key": "test-invoke-api-key",
-//     "authorizer-principal-id": "",
-//     "caller": "688567306327",
-//     "cognito-authentication-provider": "",
-//     "cognito-authentication-type": "",
-//     "cognito-identity-id": "",
-//     "cognito-identity-pool-id": "",
-//     "http-method": "POST",
-//     "stage": "test-invoke-stage",
-//     "source-ip": "test-invoke-source-ip",
-//     "user": "688567306327",
-//     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0",
-//     "user-arn": "arn:aws:iam::688567306327:root",
-//     "request-id": "c452340f-79b5-4007-b5e7-6ec6fc7bf3e4",
-//     "resource-id": "y6axew",
-//     "resource-path": "/khach-hang"
-//   }
-// }).then(console.log)
+handler({
+  "body-json": {
+    "ma": "816eea50-0d32-4369-8018-f15119e9da3e",
+    "ten": "123333",
+    "ngaySinh": "2023-01-01",
+    "diaChi": "fdddd",
+    "email": "33ddd3d",
+    "sdt": "1233323",
+    "ngayThamGia": "2025-1-01"
+  },
+  "params": {
+    "path": {
+    }
+    , "querystring": {
+    }
+    , "header": {
+    }
+  },
+  "stage-variables": {
+  },
+  "context": {
+    "account-id": "688567306327",
+    "api-id": "7dc790ywi7",
+    "api-key": "test-invoke-api-key",
+    "authorizer-principal-id": "",
+    "caller": "688567306327",
+    "cognito-authentication-provider": "",
+    "cognito-authentication-type": "",
+    "cognito-identity-id": "",
+    "cognito-identity-pool-id": "",
+    "http-method": "DELETE",
+    "stage": "test-invoke-stage",
+    "source-ip": "test-invoke-source-ip",
+    "user": "688567306327",
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0",
+    "user-arn": "arn:aws:iam::688567306327:root",
+    "request-id": "c452340f-79b5-4007-b5e7-6ec6fc7bf3e4",
+    "resource-id": "y6axew",
+    "resource-path": "/khach-hang"
+  }
+}).then(console.log)

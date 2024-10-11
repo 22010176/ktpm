@@ -17,6 +17,7 @@ export const khachHangAPI = {
     }).then(a => a.json())
   },
   async DELETE(data) {
+
     return fetch(url + "/khach-hang", {
       method: "DELETE", headers, body: JSON.stringify(data)
     }).then(a => a.json())

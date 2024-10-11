@@ -3,7 +3,6 @@ import styles from './style.module.css'
 export default function TableB({ onClick, data = [], headers = [] }) {
   function rowOnClick(e) {
     e.stopPropagation()
-
     const elem = e.target.parentElement
     clearSelect()
     elem.classList.add("table-active")
@@ -27,7 +26,7 @@ export default function TableB({ onClick, data = [], headers = [] }) {
         <tbody className={[styles.table_body, "table-group-divider"].join(" ")} onClick={rowOnClick}>
           {data.map((item, j) => (
             <tr className={[styles.table_row].join(" ")} key={j} >
-              {headers.map(({ val }, _j) => <td key={_j} data-key={val} data-value={item[val]} >{item[val]}</td>)}
+              {headers.map(({ value }, _j) => <td key={_j} data-key={value} data-value={item[value]} >{item[value]}</td>)}
             </tr>
           ))}
         </tbody>

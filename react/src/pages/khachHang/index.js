@@ -10,7 +10,7 @@ import { khachHangAPI } from '../../api'
 import TableB from '../../components/tableA/temp';
 
 const KhachHangContext = createContext({})
-const defaultKhachHang = { "ma": undefined, "ten": "", "ngaySinh": "", "diaChi": "", "email": "", "sdt": "", "ngayThamGia": "" }
+const defaultKhachHang = { "ma": null, "ten": "", "ngaySinh": "", "diaChi": "", "email": "", "sdt": "" }
 
 function KhachHangModal({ title, submitBtnTitle, onSubmit }) {
   const parents = useRef(), hideBtn = useRef();
@@ -23,7 +23,10 @@ function KhachHangModal({ title, submitBtnTitle, onSubmit }) {
 
   async function onFormSubmit(e) {
     e.preventDefault();
-    if (typeof onSubmit == 'function') onSubmit(data)
+    if (typeof onSubmit != 'function') return
+
+    let result = await onSubmit(data)
+    if (result) hideBtn.current.click()
   }
   return (
     <div ref={parents} className="modal-dialog modal-dialog-centered modal-dialog-scrollable border-0 modal-lg">
@@ -110,7 +113,6 @@ const navLinks = [
   },
 ]
 
-
 export default function KhachHang() {
   const [data, setData] = useState({ ...defaultKhachHang })
   const [tableData, setTableData] = useState([]);
@@ -120,8 +122,8 @@ export default function KhachHang() {
 
   useEffect(function () {
     getKhachHangData()
-    addBtn.current.addEventListener("shown.bs.modal", updateFormData.bind(this, defaultKhachHang))
   }, [])
+
 
   useEffect(function () {
     if (rowClick) {
@@ -139,28 +141,46 @@ export default function KhachHang() {
   async function getKhachHangData() {
     setTableData([])
     setRowClick(undefined)
-    await khachHangAPI.GET().then(a => setTableData(a.body))
+    khachHangAPI.GET().then(result => setTableData(result.body))
   }
 
-  function updateFormData(data = {}) {
+  function updateFormData(data) {
+    if (!data) return
     setData({ ...data })
   }
 
   function onRowClick(data) {
     setRowClick(data);
-
   }
 
   async function onAdd(data) {
-    console.log(data)
+    const result = await khachHangAPI.PUT(data);
+    getKhachHangData()
+
+    if (result.message !== "Success") return false;
+
+    updateFormData(defaultKhachHang)
     return true;
   }
 
-  async function onEdit(e, data) {
+  async function onEdit(data) {
+    const result = await khachHangAPI.POST(data)
+    getKhachHangData();
+
+    if (result.message !== "Success") return false;
+
+    updateFormData(defaultKhachHang)
+    return true;
   }
 
   async function onDelete(e) {
+    const result = await khachHangAPI.DELETE(rowClick)
+    getKhachHangData();
 
+    if (result.message !== "Success") return false;
+
+    updateFormData(defaultKhachHang)
+    return true;
   }
   return (
     <main className={[styles.container, "container-fluid vw-100 vh-100 bg-info-subtle"].join(" ")}>
@@ -179,7 +199,7 @@ export default function KhachHang() {
               <ToolbarB.Tools>
                 <ToolBtnB ref={addBtn} color="#63e6be" icon={faCirclePlus} title="Thêm" data-bs-toggle="modal" data-bs-target="#addModal" />
                 <ToolBtnB ref={editBtn} color="#e69138" icon={faPencil} title="Sửa" data-bs-toggle="modal" data-bs-target="#editModal" onClick={updateFormData.bind({}, rowClick)} />
-                <ToolBtnB ref={deleteBtn} color="#ffd43b" icon={faTrashCan} title="Xóa" />
+                <ToolBtnB ref={deleteBtn} color="#ffd43b" icon={faTrashCan} title="Xóa" onClick={onDelete} />
               </ToolbarB.Tools>
 
               <ToolbarB.SearchForm>
