@@ -1,35 +1,29 @@
+import { useEffect, useRef, useState, useContext, createContext } from 'react'
+import { faCirclePlus, faPencil, faTrashCan, faHouse, faHandshakeSimple } from '@fortawesome/free-solid-svg-icons';
+
 import SideNavbar from '../../components/sidebarA'
-import ToolbarA from '../../components/toolbarA'
-import TableA from '../../components/tableA'
+import ToolbarB from '../../components/toolbarA/temp'
+import { ToolBtnB } from '../../components/Button/ToolBtn'
 
 import styles from './style.module.css'
-import { useEffect, useRef, useState } from 'react'
 import { khachHangAPI } from '../../api'
+import TableB from '../../components/tableA/temp';
 
-
-
+const KhachHangContext = createContext({})
 const defaultKhachHang = { "ma": undefined, "ten": "", "ngaySinh": "", "diaChi": "", "email": "", "sdt": "", "ngayThamGia": "" }
-function KhachHangModal({ title, submitBtnTitle, onSubmit, initialValue = {} }) {
-  const parents = useRef(), hideBtn = useRef();
-  const [data, setData] = useState(Object.assign(defaultKhachHang, initialValue))
 
+function KhachHangModal({ title, submitBtnTitle, onSubmit }) {
+  const parents = useRef(), hideBtn = useRef();
+  const [data, setData] = useContext(KhachHangContext)
 
   function inputOnChange(e) {
     const elem = e.target, key = elem.name;
-    setData(src => ({ ...src, [key]: elem.value }));
+    setData(src => ({ ...src, [key]: elem.value || "" }));
   }
 
   async function onFormSubmit(e) {
     e.preventDefault();
-    // điều kiện tắt modal và xóa input là hàm submit không phải function hoặc nó là function và kết quả trả về khác false
-    try {
-      if (!await onSubmit({ ...data })) return;
-      setData({ "ma": undefined, "ten": "", "ngaySinh": "", "diaChi": "", "email": "", "sdt": "", "ngayThamGia": "", })
-      hideBtn.current.click();
-    } catch (error) {
-      console.log(error)
-      hideBtn.current.click();
-    }
+    if (typeof onSubmit == 'function') onSubmit(data)
   }
   return (
     <div ref={parents} className="modal-dialog modal-dialog-centered modal-dialog-scrollable border-0 modal-lg">
@@ -80,7 +74,6 @@ function KhachHangModal({ title, submitBtnTitle, onSubmit, initialValue = {} }) 
   )
 }
 
-
 function EditNoSelectErrorModal() {
   return (
     <div className="modal-dialog">
@@ -100,60 +93,81 @@ function EditNoSelectErrorModal() {
   )
 }
 
-const headers = ["Mã KH", "Tên khách hàng", "Ngày sinh", "Địa chỉ", "Email", "Số điện thoại", "Ngày tham gia"]
-const mapping = ["ma", "ten", "ngaySinh", "diaChi", "email", "sdt", "ngayThamGia"]
+const newHd = [
+  { key: "Mã KH", value: "ma" },
+  { key: "Tên khách hàng", value: "ten" },
+  { key: "Ngày sinh", value: "ngaySinh" },
+  { key: "Địa chỉ", value: "diaChi" },
+  { key: "Email", value: "email" },
+  { key: "Số điện thoại", value: "sdt" },
+  { key: "Ngày tham gia", value: "ngayThamGia" },
+]
+const navLinks = [
+  { title: "Trang chủ", id: "trangChu", link: "/", icon: faHouse, links: [] },
+  {
+    title: "Quản lý đối tác", id: "doiTac", icon: faHandshakeSimple,
+    links: [{ title: "Khách hàng", href: "/khach-hang" },]
+  },
+]
+
 
 export default function KhachHang() {
-  const errorBtn = useRef();
+  const [data, setData] = useState({ ...defaultKhachHang })
   const [tableData, setTableData] = useState([]);
   const [rowClick, setRowClick] = useState();
 
+  const addBtn = useRef(), editBtn = useRef(), deleteBtn = useRef()
+
   useEffect(function () {
     getKhachHangData()
+    addBtn.current.addEventListener("shown.bs.modal", updateFormData.bind(this, defaultKhachHang))
   }, [])
 
+  useEffect(function () {
+    if (rowClick) {
+      editBtn.current.setAttribute("data-bs-target", "#editModal")
+      deleteBtn.current.removeAttribute("data-bs-toggle")
+      deleteBtn.current.removeAttribute("data-bs-target")
+      return
+    }
+
+    editBtn.current.setAttribute("data-bs-target", "#errorModal")
+    deleteBtn.current.setAttribute("data-bs-toggle", "modal")
+    deleteBtn.current.setAttribute("data-bs-target", "#errorModal")
+  }, [rowClick])
 
   async function getKhachHangData() {
     setTableData([])
+    setRowClick(undefined)
     await khachHangAPI.GET().then(a => setTableData(a.body))
+  }
+
+  function updateFormData(data = {}) {
+    setData({ ...data })
   }
 
   function onRowClick(data) {
     setRowClick(data);
+
   }
 
   async function onAdd(data) {
-    const result = await khachHangAPI.PUT(data)
-    if (result.message !== "Success") return false;
-
-    setRowClick(defaultKhachHang);
-    getKhachHangData();
-    return true
+    console.log(data)
+    return true;
   }
 
-  async function onEdit(data) {
-    const result = await khachHangAPI.POST(data)
-    if (result.message !== "Success") return false;
-
-    setRowClick(defaultKhachHang);
-    getKhachHangData()
-    return true
+  async function onEdit(e, data) {
   }
 
   async function onDelete(e) {
-    if (!rowClick) errorBtn.current.click();
-    const result = await khachHangAPI.DELETE(rowClick)
 
-    await getKhachHangData()
-    return result.message === "Success"
   }
   return (
     <main className={[styles.container, "container-fluid vw-100 vh-100 bg-info-subtle"].join(" ")}>
-      <div ref={errorBtn} className='d-none' data-bs-toggle="modal" data-bs-target="#errorModal"></div>
       <div className='row h-100'>
         <div className={[styles.side_bar, 'col-auto h-100'].join(" ")}>
           <div className='row h-100'>
-            <SideNavbar />
+            <SideNavbar navItem={navLinks} />
           </div>
         </div>
 
@@ -161,22 +175,49 @@ export default function KhachHang() {
         <div className={[styles.main_content, "col-auto bg-info-subtle h-100 py-3 px-4 d-flex flex-column gap-4"].join(" ")}>
           {/* Thanh công cụ */}
           <div className={[styles.tools_bar, "row"].join(" ")}>
-            <ToolbarA
-              onDelete={onDelete}
-              AddModal={<KhachHangModal title={"THÊM KHÁCH HÀNG"} submitBtnTitle={"Thêm khách hàng"} onSubmit={onAdd} />}
-              EditModal={<KhachHangModal title={"SỬA KHÁCH HÀNG"} submitBtnTitle={"Lưu thông tin"} onSubmit={onEdit} initialValue={{ ...rowClick }} />} />
+            <ToolbarB>
+              <ToolbarB.Tools>
+                <ToolBtnB ref={addBtn} color="#63e6be" icon={faCirclePlus} title="Thêm" data-bs-toggle="modal" data-bs-target="#addModal" />
+                <ToolBtnB ref={editBtn} color="#e69138" icon={faPencil} title="Sửa" data-bs-toggle="modal" data-bs-target="#editModal" onClick={updateFormData.bind({}, rowClick)} />
+                <ToolBtnB ref={deleteBtn} color="#ffd43b" icon={faTrashCan} title="Xóa" />
+              </ToolbarB.Tools>
+
+              <ToolbarB.SearchForm>
+                <div>
+                  <select className="form-select">
+                    <option defaultValue>Tên</option>
+                    <option value="1">Thương hiệu</option>
+                    <option value="2">Hệ điều hành</option>
+                  </select>
+                </div>
+                <div>
+                  <input className="form-control" type="text" placeholder="Tìm kiếm" aria-label="default input example" />
+                </div>
+                <div>
+                  <button type="submit" className="btn btn-primary w-100">Tìm kiếm</button>
+                </div>
+              </ToolbarB.SearchForm>
+            </ToolbarB>
           </div>
 
           {/* Bảng dữ liệu */}
           <div className={[styles.table_wrapper, "bg-light rounded-2 row"].join(" ")}>
-            <TableA headers={headers} data={tableData} mapping={mapping} onClick={onRowClick} />
+            <TableB headers={newHd} data={tableData} onClick={onRowClick} />
           </div>
         </div>
       </div>
 
-      <div className='modal fade' id='errorModal' tabIndex={-1}>
-        <EditNoSelectErrorModal />
-      </div>
+      <KhachHangContext.Provider value={[data, setData]}>
+        <div className='modal fade' id='errorModal' tabIndex={-1}>
+          <EditNoSelectErrorModal />
+        </div>
+        <div className='modal fade' id='addModal' tabIndex={-1}>
+          <KhachHangModal title="THÊM THÔNG TIN KHÁCH HÀNG" submitBtnTitle="Thêm khách hàng" onSubmit={onAdd} />
+        </div>
+        <div className='modal fade' id='editModal' tabIndex={-1}>
+          <KhachHangModal title="CHỈNH SỬA THÔNG TIN KHÁCH HÀNG" submitBtnTitle="Lưu thông tin" onSubmit={onEdit} />
+        </div>
+      </KhachHangContext.Provider>
     </main>
   )
 }
