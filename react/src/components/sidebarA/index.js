@@ -5,20 +5,20 @@ import styles from './style.module.css'
 const navLinks = [
   { title: "Trang chủ", id: "trangChu", link: "/", icon: faHouse, links: [] },
   {
-    title: "Quản lý sản phẩm", id: "sanPham", icon: faWarehouse, links: [
+    title: "Sản phẩm", id: "sanPham", icon: faWarehouse, links: [
       { title: "Sản phẩm", href: "/san-pham" },
-      { title: "Thuộc tính", href: "/thuoc-tinh" },
+      { title: "Thuộc tính", href: "/thuoc-tinh" }
     ]
   },
   {
     title: "Quản lý đối tác", id: "doiTac", icon: faHandshakeSimple, links: [
-      { title: "Nhà cung cấp", href: "/nha-cung-cap" },
       { title: "Khách hàng", href: "/khach-hang" },
+      { title: "Nhà cung cấp", href: "/nha-cung-cap" }
     ]
   },
 ]
 
-export default function SideNavbar() {
+export default function SideNavbar({ navItem = navLinks }) {
   return (
     <div className={["bg-light p-0 h-100"].join(" ")}>
       {/* Tài khoản */}
@@ -33,32 +33,33 @@ export default function SideNavbar() {
       </div>
 
       {/* Trang chủ */}
-      <div className={[styles.nav_container].join(" ")}>
+      <div className={[styles.nav_container, "d-flex flex-column justify-content-between"].join(" ")}>
         <div className="row accordion accordion-flush p-0 m-0" >
-          {navLinks.map(item => (
-            <div className="accordion-item bg-light" key={item.title}>
+          {navItem.map((item, k) => (
+            <div key={k} className="accordion-item bg-light">
               <div className="accordion-header">
-                <div className={[styles.nav_header, "collapsed px-4 py-2"].join(" ")} type="button" data-bs-toggle="collapse" data-bs-target={`#${item.id}`} aria-expanded="false">
+                <div className={[styles.nav_header, "collapsed px-4 py-2"].join(" ")} type="button" data-bs-toggle="collapse" data-bs-target={`#${item.id}-nav`} aria-expanded="false">
                   <FontAwesomeIcon className={styles.nav_icon} icon={item.icon} />
                   {item.links.length > 0 ?
                     <>
                       <p className="fs-5 fw-semibold my-0">{item.title}</p>
                       <FontAwesomeIcon className={styles.arrow_icon} icon={faAngleRight} />
-                    </>
-                    : <a className="fs-5 fw-semibold my-0 text-decoration-none" href={item.link}>{item.title}</a>
-                  }
+                    </> :
+                    <a href={item.link} className="fs-5 text-decoration-none fw-semibold">{item.title}</a>}
                 </div>
               </div>
 
-              {item.links.length > 0 && <div id={item.id} className="accordion-collapse collapse" >
+              {item.links.length ? <div id={`${item.id}-nav`} className="accordion-collapse collapse" >
                 <div className="accordion-body py-0 px-4">
                   <ul>
-                    {item.links.map(link => (
-                      <li className={["py-1"].join(" ")}><a className='text-decoration-none' href={link.href} key={link.href}>{link.title}</a></li>
+                    {item.links.map((_link, j) => (
+                      <li key={j} className={["py-1"].join(" ")}>
+                        <a className='text-decoration-none' href={_link.href}>{_link.title}</a>
+                      </li>
                     ))}
                   </ul>
                 </div>
-              </div>}
+              </div> : ""}
             </div>
           ))}
         </div>

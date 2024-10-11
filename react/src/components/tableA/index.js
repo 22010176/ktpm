@@ -1,6 +1,4 @@
-
 import styles from './style.module.css'
-
 
 export default function TableA({ onClick, data = [], headers = [], mapping = [] }) {
   function rowOnClick(e) {
