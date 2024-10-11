@@ -254,7 +254,6 @@ Chọn **Error pages**, chọn **Create custom error response**
 ![alt text](image-1.png)
 
 Cài đặt:
-
-![alt text](image-6.png)
+![alt text](image-7.png)
 
 Thế là hoàn thành tất cả các bước thiết lập **cloudfront**
